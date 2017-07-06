@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+<title>广告幻灯片滑动效果</title>
+
+<link href="css/swiper.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+
+	<div class="swiper-top">
+        <div class="ads-wrapper" id="swiperTop">
+            <div class="ads">
+	            <img src="img/bg.png" alt="">
+            </div>
+            <div class="ads">
+	            <img src="img/techp.jpg" alt="">
+            </div>
+            <div class="ads">
+	            <img src="img/banner4.jpg" alt="">
+            </div>
+            <div class="ads">
+	            <img src="img/banner5.jpg" alt="">
+            </div>
+            <div class="ads">
+            	<img src="img/banner1.jpg" alt="">
+            </div>
+            <div class="ads">
+	            <img src="img/banner2.jpg" alt="">
+            </div>
+            <div class="ads">
+	            <img src="img/banner3.jpg" alt="">
+            </div>
+        </div>
+        
+    </div>
+    <div class="swiper-thumbs">
+        <div class="thumbs-wrapper" id="swiperThumbs">
+            <div class="thumbs thumbs-active">
+	            <img src="img/bgg.png" alt="">
+            </div>
+             <div class="thumbs">
+	            <img src="img/techp-thumb.jpg" alt="">
+            </div>
+            <div class="thumbs">
+	            <img src="img/ban4.jpg" alt="">
+            </div>
+            <div class="thumbs">
+	            <img src="img/ban5.jpg" alt="">
+            </div>
+            <div class="thumbs">
+	            <img src="img/ban1.jpg" alt="">
+            </div>
+            <div class="thumbs">
+	            <img src="img/ban2.jpg" alt="">
+            </div>
+            <div class="thumbs">
+	            <img src="img/ban3.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+
+    		var win_width = $(window).width();
+			var w = win_width/1600;
+
+			$('.swiper-top,.ads,.ads-wrapper').height(575*w);
+			$('#swiperTop .ads').width(win_width);
+			$('#swiperTop').width($('#swiperTop .ads').length*win_width);
+
+			var len = $('#swiperThumbs .thumbs').length;
+			var swiper_idx = 0;
+			var adTimer;
+
+			// 鼠标over大图停止自动滑动
+			// 鼠标离开重新自动滑动
+			$('#swiperTop .ads').hover(function() {
+				clearInterval(adTimer);
+				swiper_idx = $(this).index();
+			}, function() {
+				adTimer = setInterval(function(){
+					showImg(swiper_idx);
+					if(swiper_idx == len){
+						swiper_idx = 0;
+					}
+				},3000);
+			}).eq(swiper_idx).mouseleave();
+
+			// 小图hover事件
+			$('#swiperThumbs .thumbs').mouseover(function(event) {
+				swiper_idx = $(this).index();
+				showImg(swiper_idx);
+			});
+
+			// 图片滑动
+			function showImg(){
+				console.log('滑动中：len='+len+'---idx='+swiper_idx);
+				$('#swiperTop .ads').stop(true,false).animate({left:-win_width*swiper_idx}, 500);
+				$('#swiperThumbs .thumbs').removeClass('thumbs-active').eq(swiper_idx).addClass('thumbs-active');
+				swiper_idx++;
+			}
+
+    	});
+    </script>
+
+</body>
+</html>
